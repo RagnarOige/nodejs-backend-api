@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: nodejs_backend_api
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nodejs_backend_api
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+
