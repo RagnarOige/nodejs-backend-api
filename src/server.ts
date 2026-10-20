@@ -1,5 +1,5 @@
 import app from './app.js'
-import { Server } from "node:http";
+import type { Server } from "node:http";
 
 let server: Server;
 let port: number = Number(process.env.PORT)
@@ -10,7 +10,7 @@ async function startServer() {
     });
 
     server.on('error', (error) => {
-        console.error(`Veebiserveri käivitamine ebaõnnestus: ${error}`);
+        console.error(`Server cannot start: ${error}`);
         process.exit(1);
     })
 }
@@ -22,7 +22,7 @@ async function closeConnection() {
 }
 
 startServer().catch((error) => {
-    console.error(`Veebiserveri käivitamine ebaõnnestus: ${error}`);
+    console.error(`Server cannot start: ${error}`);
     closeConnection();
     process.exit(1);
 })
