@@ -14,7 +14,10 @@ const envSchema = z.object({
         .default(3000),
     
     DATABASE_URL: z
-        .url("Add DATABASE_URL as enviroment variables")
+        .url(),
+
+    BETTER_AUTH_URL: z.url(),
+    BETTER_AUTH_SECRET: z.string().min(32)
 });
 
 const parseEnv = () => {

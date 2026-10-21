@@ -1,25 +1,27 @@
-import app from './app.js'
-import type { Server } from "node:http";
-import { env } from './config/env.js'; 
+import app from './app.js';
+import { Server } from "node:http";
+import { env } from './config/env.js';
+import {pool} from "./db/index.js";
 
+await pool.query("SELECT 1");
 
 const server: Server = app.listen(env.PORT, (error) => {
     if (error) throw error;
-    console.log(`Server is running on https://localhost:${env.PORT}`);
+    console.log(`Server is running on http://localhost:${env.PORT}`);
 });
 
-let isShuttinDown = false;
+let isShuttingDown = false;
 
 async function shutdown() {
-    if (isShuttinDown) return;
-    isShuttinDown = true
+    if (isShuttingDown) return;
+    isShuttingDown = true;
 
     setTimeout(() => process.exit(1), 8000);
 
     await new Promise(resolve => server.close(resolve));
-    
+    await pool.end();
     process.exit(0);
-};
+}
 
 process.on("SIGINT", shutdown);
-process.on("SIGTERM",shutdown);
+process.on("SIGTERM", shutdown);
